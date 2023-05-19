@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="stu">Welcome Employee !</div>
+      <div class="logo">
+        <img src="{% static '#' %}" alt="logo" />
+      </div>
+      <div class="uni">Daisy Fashion</div>
+
+      <div class="wrapper">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="field">
+            <label>UserName</label>
+            <input type="text" name="username" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" name="Password" required />
+          </div>
+          <div class="field">
+            <input type="submit" value="Login" />
+          </div>
+        </form>
+
+        <div class="footer">
+          &#169; 2023 Abrar Hussain Dar, All rights reserved.&#128514;
+        </div>
+      </div> 
+      {% comment %} <div class="content">
+        <form method="POST">
+          {% csrf_token %}
+      
+          <div class="user-details">
+            <div class="input-box">
+              {% for field in form %}
+              <span class="details">{{ field.label }}</span>
+              {{ field }}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="Register">
+          </div>
+        </form>
+      </div> {% endcomment %}
+    </div>
+  </body>
+</html>
