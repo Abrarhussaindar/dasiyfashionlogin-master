@@ -2,17 +2,20 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 import time
 
-# Create your models here.
+
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_user(self, username, email,intime, out_time, counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
 
         user=self.model(
             email=self.normalize_email(email),
             username = username,
+            counter=counter,
             first_name = first_name,
             middle_name = middle_name,
             last_name = last_name,
+            intime=intime,
+            out_time=out_time,
             phone_number = phone_number,
             designation = designation,
             empid = empid,
@@ -24,7 +27,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self,username, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_superuser(self,username, counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
         user=self.create_user(
             email=email,
             username = username,
@@ -33,6 +36,9 @@ class MyUserManager(BaseUserManager):
             last_name = last_name,
             designation = designation,
             empid = empid,
+            counter=counter,
+            intime=intime,
+            out_time=out_time,
             phone_number = phone_number,
             password=password,
         )
@@ -41,6 +47,7 @@ class MyUserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
+
 
 
 class Employee(AbstractBaseUser):
@@ -52,9 +59,12 @@ class Employee(AbstractBaseUser):
     empid = models.CharField(verbose_name='Employee ID', max_length=20, null=True)
     designation = models.CharField(verbose_name='Designation', max_length=20, null=True)
 
-    # login_counter = models.TimeField(verbose_name='counter',default=time.time, null=True)
+    counter = models.IntegerField(verbose_name="Logged In", default=0, null=True)
 
-    # dob = models.DateField(verbose_name='Date Of Birth', max_length=20, null=True)
+    intime = models.DateTimeField(verbose_name='Login Time',auto_now=True, null=True)
+    out_time = models.DateTimeField(verbose_name='LogOut Time',auto_now=False, null=True)
+
+
     # course = models.CharField(verbose_name='Course', max_length=200, null=True)
     # admitted_through = models.CharField(verbose_name='Admitted Through', max_length=200, null=True)
     # applied_year = models.CharField(verbose_name='Applied Year', max_length=20, null=True)
@@ -75,7 +85,7 @@ class Employee(AbstractBaseUser):
 
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name','middle_name', 'last_name', 'phone_number', 'email']
+    REQUIRED_FIELDS = ['first_name','middle_name', 'last_name', 'phone_number', 'counter', 'email', 'empid', 'designation']
 
     objects = MyUserManager()
 
