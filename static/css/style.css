@@ -1,4 +1,50 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+header .header-btns {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: rgb(151, 151, 151);
+  border-radius: 5px;
+}
+header .header-btns a {
+  padding: 10px 30px;
+  border-radius: 5px;
+  background-color: purple;
+  text-decoration: none;
+  color: white;
+}
+
+.header-btns {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: rgb(151, 151, 151);
+  border-radius: 5px;
+}
+.header-btns a {
+  padding: 10px 30px;
+  border-radius: 5px;
+  background-color: purple;
+  text-decoration: none;
+  color: white;
+}
+
+footer .sticky-fixed-popup {
+  position: fixed;
+  bottom: 2%;
+  left: 2%;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  background-color: rgb(151, 151, 151);
+  border-radius: 5px;
 }/*# sourceMappingURL=style.css.map */

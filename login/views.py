@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from .models import *
 import time
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
 
 # def countdown(time_sec):
@@ -72,7 +72,24 @@ def create_new_user(request):
 # @login_required
 def home(request):
     emp = request.user
-    context = {
-        "emp": emp,
-    }
+    print(emp)
+    print("emp intime at home page: ",emp.intime)
+
+    # duration = emp.intime - current_time
+    # print("duration: ", duration)
+    # print("t1: ", t1, " t2: ", t2)
+    # print("duration: ", t2-t1)
+
+    while request.user.is_authenticated:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        # print("current time: ", current_time)
+        t1 = datetime.strptime(emp.intime, "%H:%M:%S")
+        t2 = datetime.strptime(current_time, "%H:%M:%S")
+        duration = t2 - t1
+
+        context = {
+            "emp": emp,
+            "duration": duration,
+        }
     return render(request, "home.html", context)

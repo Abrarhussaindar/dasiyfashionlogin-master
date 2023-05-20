@@ -9,11 +9,9 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
-    <h1>Home</h1>
-    {% comment %} <p>{{ emp.login_list }}</p>
-    <p>{{ emp.logout_list }}</p> {% endcomment %}
-    <div>
 
+    <header>
+      <div class="header-btns">
         {% if user.is_authenticated %}
           <a href="{% url "user_logout" %}">Log Out </a>
 
@@ -22,5 +20,24 @@
           <a href="{% url "register" %}"> Sign Up</a>
         {% endif %}
     </div>
+    </header>
+
+
+    {% comment %} {% block content %} {% endcomment %}
+    <main>
+      <h1>Home</h1>
+      <p>{{ emp.intime }}</p>
+
+    </main>
+    {% comment %} {% endblock content %} {% endcomment %}
+
+
+    <footer>
+        <div class="sticky-fixed-popup">
+            {% comment %} Login Time: 00 Hrs. : 00 Mins. : 00 Sec. {% endcomment %}
+            Login Time :- {{ duration }}
+        </div>
+    </footer>
+
 </body>
 </html>
