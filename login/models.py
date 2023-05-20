@@ -48,7 +48,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
+login_times = []
 
 class Employee(AbstractBaseUser):
     first_name = models.CharField(verbose_name='First Name', max_length=200, null=True)
@@ -61,8 +61,9 @@ class Employee(AbstractBaseUser):
 
     counter = models.IntegerField(verbose_name="Logged In", default=0, null=True)
 
-    intime = models.DateTimeField(verbose_name='Login Time',auto_now=True, null=True)
-    out_time = models.DateTimeField(verbose_name='LogOut Time',auto_now=False, null=True)
+    # login_details = models.QuerySet(verbose_name="login_details", )
+    intime = models.TimeField(verbose_name='Login Time',auto_now=False, null=True)
+    out_time = models.TimeField(verbose_name='LogOut Time',auto_now=False, null=True)
 
 
     # course = models.CharField(verbose_name='Course', max_length=200, null=True)

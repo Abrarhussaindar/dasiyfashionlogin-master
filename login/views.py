@@ -3,9 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from .models import *
 import time
-import threading
-
-import time
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 # def countdown(time_sec):
 #     while time_sec:
@@ -20,62 +19,66 @@ import time
 # countdown(1)
 
 
-# import datetime
-  
-# # # creating an instance of 
-# # # datetime.time
-# # # time(hour = 0, minute = 0, second = 0)
-# d = datetime.time(0, 0, 0)
-  
-# # creating an instance of 
-# # GeeksModel
-# geek_object = GeeksModel.objects.create(geeks_field = d)
-# geek_object.save()
+login_times = []
+logout_times = []
 
-# Create your views here.
+
 def user_login(request):
     print("current time", time.strftime("%H:%M:%S", time.localtime()))
     if request.method == 'POST':
+
         username = request.POST.get('username')
         password = request.POST.get('Password')
         print(username, password)
         employee = authenticate(request, username=username, password=password)
-        print(employee)
-        # employe_counter = Employee.objects.filter(empid=employee.empid)
-        employe_counter = employee.counter
-        print("login counts: ",employe_counter)
-        if employee == None:
-            print("yes")
-        print("yes it is: ", employee.is_authenticated)
+
+        print("employee intime:", employee.intime)
+
         if employee is not None:
             print("employee is not none")
-            # countdown(1)
+
             employee.counter += 1
             login(request, employee)
             employe_counter = employee.counter
+
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            employee.intime = current_time
+
             employee.save()
+
             print("login counts: ",employe_counter)
+            login_times.append(employee.intime)
+            print("login time list: ", login_times)
+
             return redirect('home')
             
     context = {}
     return render(request, "login.html", context)
 
+
+@login_required
+def user_logout(request):
+    emp = request.user
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    emp.out_time = current_time
+    print("current time logout: ", current_time)
+    print("outime: ", emp.out_time)
+
+    emp.save()
+
+    logout(request)
+
+    logout_times.append(emp.out_time)
+    print("logout time at logout: ", logout_times)
+    
+    return redirect('user_login')
+
+
+
+
+# @login_required
 def home(request):
-    # employee.counter += 1
     return render(request, "home.html", {})
-
-
-# if __name__ =="__main__":
-#     # creating thread
-#     t1 = threading.Thread(target=user_login)
-#     t2 = threading.Thread(target=countdown)
- 
-#     # starting thread 1
-#     t1.start()
-#     # starting thread 2
-#     t2.start()
-
-#     t1.join()
-#     # wait until thread 2 is completely executed
-#     t2.join()
- 
