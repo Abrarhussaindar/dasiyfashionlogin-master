@@ -5,12 +5,13 @@ import time
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email,intime, out_time, counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_user(self, username, email,intime, out_time,logout_counter, login_counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
 
         user=self.model(
             email=self.normalize_email(email),
             username = username,
-            counter=counter,
+            login_counter=login_counter,
+            logout_counter=logout_counter,
             first_name = first_name,
             middle_name = middle_name,
             last_name = last_name,
@@ -27,7 +28,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self,username, counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_superuser(self,username, login_counter,logout_counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
         user=self.create_user(
             email=email,
             username = username,
@@ -36,7 +37,8 @@ class MyUserManager(BaseUserManager):
             last_name = last_name,
             designation = designation,
             empid = empid,
-            counter=counter,
+            login_counter=login_counter,
+            logout_counter=logout_counter,
             intime=intime,
             out_time=out_time,
             phone_number = phone_number,
@@ -49,6 +51,62 @@ class MyUserManager(BaseUserManager):
         return user
 
 login_times = []
+logout_times = []
+
+import math
+ 
+# Defining a positive infinite integer
+positive_infinity = math.inf
+
+
+from django.db import models
+from typing import Iterable
+
+class ListField(models.TextField):
+    """
+    A custom Django field to represent lists as comma separated strings
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.token = kwargs.pop('token', ',')
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        kwargs['token'] = self.token
+        return name, path, args, kwargs
+
+    def to_python(self, value):
+
+        class SubList(list):
+            def __init__(self, token, *args):
+                self.token = token
+                super().__init__(*args)
+
+            def __str__(self):
+                return self.token.join(self)
+
+        if isinstance(value, list):
+            return value
+        if value is None:
+            return SubList(self.token)
+        return SubList(self.token, value.split(self.token))
+
+    def from_db_value(self, value, expression, connection):
+        return self.to_python(value)
+
+    def get_prep_value(self, value):
+        if not value:
+            return
+        assert(isinstance(value, Iterable))
+        return self.token.join(value)
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return self.get_prep_value(value)
+
+class ListModel(models.Model):
+    test_list = ListField()
 
 class Employee(AbstractBaseUser):
     first_name = models.CharField(verbose_name='First Name', max_length=200, null=True)
@@ -59,23 +117,16 @@ class Employee(AbstractBaseUser):
     empid = models.CharField(verbose_name='Employee ID', max_length=20, null=True)
     designation = models.CharField(verbose_name='Designation', max_length=20, null=True)
 
-    counter = models.IntegerField(verbose_name="Logged In", default=0, null=True)
+    login_counter = models.IntegerField(verbose_name="No. Of LogIn\'s", default=0, null=True)
+    logout_counter = models.IntegerField(verbose_name="No. Of Logout\'s", default=0, null=True)
 
-    # login_details = models.QuerySet(verbose_name="login_details", )
-    intime = models.TimeField(verbose_name='Login Time',auto_now=False, null=True)
-    out_time = models.TimeField(verbose_name='LogOut Time',auto_now=False, null=True)
+    intime = models.CharField(verbose_name='Current Login Time',max_length=200, null=True)
+    out_time = models.CharField(verbose_name='Previous LogOut Time',max_length=200, null=True)
 
 
-    # course = models.CharField(verbose_name='Course', max_length=200, null=True)
-    # admitted_through = models.CharField(verbose_name='Admitted Through', max_length=200, null=True)
-    # applied_year = models.CharField(verbose_name='Applied Year', max_length=20, null=True)
-    # address = models.CharField(verbose_name='address', max_length=500, null=True)
-    # city = models.CharField(verbose_name='city', max_length=200, null=True)
-    # state = models.CharField(verbose_name='state', max_length=200, null=True)
-    # country = models.CharField(verbose_name='country', max_length=100, null=True)
-    # alternate_address = models.CharField(verbose_name='alternate_address', max_length=500, null=True)
-    # house_number = models.CharField(verbose_name='house_number', max_length=5, null=True)
-    # pincode = models.CharField(verbose_name='pincode', max_length=10, null=True)
+    login_list = ListField(verbose_name="Login List", null=True)
+    logout_list = ListField(verbose_name="Logout List", null=True)
+
 
     email = models.EmailField(verbose_name='Email', max_length=60, unique=True)
     is_admin = models.BooleanField(default=False)

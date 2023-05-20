@@ -19,8 +19,8 @@ from django.contrib.auth.decorators import login_required
 # countdown(1)
 
 
-login_times = []
-logout_times = []
+# login_times = []
+# logout_times = []
 
 
 def user_login(request):
@@ -32,25 +32,21 @@ def user_login(request):
         print(username, password)
         employee = authenticate(request, username=username, password=password)
 
-        print("employee intime:", employee.intime)
+        
 
         if employee is not None:
             print("employee is not none")
-
-            employee.counter += 1
+            employee.login_counter += 1
             login(request, employee)
-            employe_counter = employee.counter
-
+            employe_counter = employee.login_counter
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
-            employee.intime = current_time
-
+            employee.login_list.append(current_time)
+            employee.intime = employee.login_list[-1]
+            print("employee intime from db:", employee.intime)
             employee.save()
-
             print("login counts: ",employe_counter)
-            login_times.append(employee.intime)
-            print("login time list: ", login_times)
-
+            print("employee login list from db: ",employee.login_list)
             return redirect('home')
             
     context = {}
@@ -60,25 +56,23 @@ def user_login(request):
 @login_required
 def user_logout(request):
     emp = request.user
-
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    emp.out_time = current_time
-    print("current time logout: ", current_time)
-    print("outime: ", emp.out_time)
-
+    emp.logout_list.append(current_time)
+    emp.out_time = emp.logout_list[-1]
+    emp.logout_counter += 1
     emp.save()
-
+    print("employee logout list from db: ",emp.login_list)
     logout(request)
-
-    logout_times.append(emp.out_time)
-    print("logout time at logout: ", logout_times)
-    
     return redirect('user_login')
 
-
-
+def create_new_user(request):
+    return render(request, "register.html", {})
 
 # @login_required
 def home(request):
-    return render(request, "home.html", {})
+    emp = request.user
+    context = {
+        "emp": emp,
+    }
+    return render(request, "home.html", context)
