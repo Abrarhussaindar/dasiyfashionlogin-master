@@ -68,7 +68,7 @@ def user_logout(request):
     emp.save()
     # print("employee logout list from db: ",emp.login_list)
     logout(request)
-    return redirect('user_login')
+    return redirect('login')
 
 def create_new_user(request):
     return render(request, "register.html", {})
@@ -78,20 +78,22 @@ import threading
 
 # @login_required
 def home(request):
-    # while request.user.is_authenticated:
-    emp = request.user
+    # while 
+    if request.user.is_authenticated:
+        emp = request.user
 
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    t1 = datetime.strptime(emp.intime, "%H:%M:%S")
-    t2 = datetime.strptime(current_time, "%H:%M:%S")
-    duration = t2 - t1
-    print("duration in while loop: ",duration)
-    time.sleep(1)
-
-    context = {
-        "emp": emp,
-        "duration": duration,
-    }
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        t1 = datetime.strptime(emp.intime, "%H:%M:%S")
+        t2 = datetime.strptime(current_time, "%H:%M:%S")
+        duration = t2 - t1
+        print("duration in while loop: ",duration)
+        time.sleep(1)
+        context = {
+            "emp": emp,
+            "duration": duration,
+        }
+    else:
+        context={}
 
     return render(request, "home.html", context)

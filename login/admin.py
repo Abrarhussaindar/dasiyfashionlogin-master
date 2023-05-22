@@ -7,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
 class MyUserAdmin(BaseUserAdmin):
-    list_display = ('first_name','middle_name' , 'last_name',  'username', 'email','phone_number', 'designation','empid', 'login_counter','logout_counter', 'intime', 'out_time','duration_time', 'is_superuser','is_admin','is_staff', 'is_active' )
+    list_display = ('first_name','middle_name' , 'last_name',  'username','empid', 'email','phone_number', 'designation', 'login_counter','logout_counter', 'intime', 'out_time','duration_time', 'is_superuser','is_admin','is_staff', 'is_active' )
     search_fields = ('username', 'email')
     filter_horizontal = ()
     list_filter = ('last_login',)

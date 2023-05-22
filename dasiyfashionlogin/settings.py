@@ -48,7 +48,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    # 'django_auto_logout.middleware.auto_logout', # django-auto-login
 ]
+# SESSION_EXPIRE_SECONDS = 10
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+# SESSION_TIMEOUT_REDIRECT = 'login/'
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+
 
 ROOT_URLCONF = 'dasiyfashionlogin.urls'
 
@@ -63,10 +71,18 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # 'django_auto_logout.context_processors.auto_logout_client', # django-auto-logout
             ],
         },
     },
 ]
+
+# AUTO_LOGOUT = {
+#     'IDLE_TIME': 600,
+#     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+#     'MESSAGE': 'The session has expired. Please login again to continue.',
+# }
 
 WSGI_APPLICATION = 'dasiyfashionlogin.wsgi.application'
 AUTH_USER_MODEL = 'login.Employee'
