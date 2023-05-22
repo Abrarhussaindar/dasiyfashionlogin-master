@@ -5,7 +5,7 @@ import time
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email,intime, out_time,logout_counter, login_counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_user(self, username, email,intime, duration_time,out_time,logout_counter, login_counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
 
         user=self.model(
             email=self.normalize_email(email),
@@ -17,6 +17,7 @@ class MyUserManager(BaseUserManager):
             last_name = last_name,
             intime=intime,
             out_time=out_time,
+            duration_time=duration_time,
             phone_number = phone_number,
             designation = designation,
             empid = empid,
@@ -28,7 +29,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self,username, login_counter,logout_counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_superuser(self,username, login_counter,duration_time,logout_counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
         user=self.create_user(
             email=email,
             username = username,
@@ -41,6 +42,7 @@ class MyUserManager(BaseUserManager):
             logout_counter=logout_counter,
             intime=intime,
             out_time=out_time,
+            duration_time=duration_time,
             phone_number = phone_number,
             password=password,
         )
@@ -122,10 +124,11 @@ class Employee(AbstractBaseUser):
 
     intime = models.CharField(verbose_name='Current Login Time',max_length=200, null=True)
     out_time = models.CharField(verbose_name='Previous LogOut Time',max_length=200, null=True)
-
+    duration_time = models.CharField(verbose_name='Last Login Duration',max_length=200, null=True)
 
     login_list = ListField(verbose_name="Login List", null=True)
     logout_list = ListField(verbose_name="Logout List", null=True)
+    duration_list = ListField(verbose_name="Login Duration List", null=True)
 
 
     email = models.EmailField(verbose_name='Email', max_length=60, unique=True)
