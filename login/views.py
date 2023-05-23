@@ -56,7 +56,17 @@ def user_logout(request):
     return redirect('login')
 
 def create_new_user(request):
-    return render(request, "register.html", {})
+    form = CreateEmployee()
+    if request.method  == 'POST':
+        form = CreateEmployee(request.POST)
+        print(form.is_valid())
+        # print(form.cleaned_data.get('email'))
+        if form.is_valid():
+            form.save()
+            # print(form.cleaned_data.get('email'))
+            return redirect('login')
+    context = {'form': form}
+    return render(request, "register.html", context)
 
 duration = 0
 
