@@ -25,6 +25,14 @@
         </div>
       {% endfor %}
 
+      <div class="category">
+      {% for category in department_categories %}
+        
+           {% comment %} <a id="{{ category[department] }}" href="{{ category[url] }}" class="category-btns"> {{ category }}</a> {% endcomment %}
+        
+      {% endfor %}
+    </div>
+
       <div class="wrapper">
         <form method="POST">
           {% csrf_token %}

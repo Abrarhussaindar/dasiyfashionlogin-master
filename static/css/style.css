@@ -35,10 +35,25 @@ header .header-btns a {
   color: white;
 }
 
+.container .category {
+  display: flex;
+}
+.container .category .category-btns {
+  margin: 10px;
+  border: 1px solid black;
+  background-color: rgb(151, 151, 151);
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 footer .sticky-fixed-popup {
   position: fixed;
   bottom: 2%;
-  left: 2%;
+  left: 1%;
   width: -moz-max-content;
   width: max-content;
   padding: 20px;

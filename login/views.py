@@ -9,6 +9,16 @@ from django.contrib.auth.decorators import login_required
 
 def user_login(request):
     print("current time", time.strftime("%H:%M:%S", time.localtime()))
+    department_categories = [
+            dict(department ="Management/Admin", url="https://wwww.digitaldisy.net"),
+            dict(department ='Operations',url="https://wwww.digitaldisy.net"),
+            dict(department ='Marketing',url="https://wwww.digitaldisy.net"),
+            dict(department ='Sales',url="https://wwww.digitaldisy.net"),
+            dict(department ='IT', url="https://wwww.digitaldisy.net")
+        ]
+    
+    for i in range(len(department_categories)):
+        print(department_categories[i]["department"],department_categories[i]["url"])
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('Password')
@@ -30,14 +40,16 @@ def user_login(request):
             return redirect('home')
             # return redirect('https://digitaldaisy.co.in/daisyfashion/')
             
-    context = {}
+    context = {
+        "department_categories": department_categories
+    }
     return render(request, "login.html", context)
 
 
 @login_required
 def user_logout(request):
     emp = request.user
-    
+
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     emp.logout_list.append(current_time)

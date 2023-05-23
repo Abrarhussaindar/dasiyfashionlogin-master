@@ -5,21 +5,20 @@ import time
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, email,intime, duration_time,out_time,logout_counter, login_counter, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_user(self, username, email,intime,department, duration_time,out_time,logout_counter, login_counter, empid, name, designation, phone_number, password=None):
 
         user=self.model(
             email=self.normalize_email(email),
             username = username,
             login_counter=login_counter,
             logout_counter=logout_counter,
-            first_name = first_name,
-            middle_name = middle_name,
-            last_name = last_name,
+            name = name,
             intime=intime,
             out_time=out_time,
             duration_time=duration_time,
             phone_number = phone_number,
             designation = designation,
+            department=department,
             empid = empid,
         )
 
@@ -29,14 +28,15 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self,username, login_counter,duration_time,logout_counter,intime,out_time, email, empid, first_name, middle_name, last_name, designation, phone_number, password=None):
+    def create_superuser(self,username, login_counter,department,duration_time,logout_counter,intime,out_time, email, empid, name, designation, phone_number, password=None):
         user=self.create_user(
             email=email,
             username = username,
-            first_name = first_name,
-            middle_name = middle_name,
-            last_name = last_name,
+            name = name,
+            # middle_name = middle_name,
+            # last_name = last_name,
             designation = designation,
+            department=department,
             empid = empid,
             login_counter=login_counter,
             logout_counter=logout_counter,
@@ -111,13 +111,14 @@ class ListModel(models.Model):
     test_list = ListField()
 
 class Employee(AbstractBaseUser):
-    first_name = models.CharField(verbose_name='First Name', max_length=200, null=True)
-    middle_name = models.CharField(verbose_name='Middle Name', max_length=200, null=True)
-    last_name = models.CharField(verbose_name='Last Name', max_length=200, null=True)
+    name = models.CharField(verbose_name='Name', max_length=200, null=True)
+    # middle_name = models.CharField(verbose_name='Middle Name', max_length=200, null=True)
+    # last_name = models.CharField(verbose_name='Last Name', max_length=200, null=True)
     phone_number = models.CharField(verbose_name='Phone Number', max_length=10, null=True)
     username = models.CharField(verbose_name='Username', max_length=20, null=True, unique=True)
     empid = models.CharField(verbose_name='Employee ID', max_length=20, null=True)
-    designation = models.CharField(verbose_name='Designation', max_length=20, null=True)
+    designation = models.CharField(verbose_name='Designation', max_length=50, null=True)
+    department = models.CharField(verbose_name='Depertment', max_length=50, null=True)
 
     login_counter = models.IntegerField(verbose_name="No. Of LogIn\'s", default=0, null=True)
     logout_counter = models.IntegerField(verbose_name="No. Of Logout\'s", default=0, null=True)
@@ -140,7 +141,7 @@ class Employee(AbstractBaseUser):
 
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name','middle_name', 'last_name', 'phone_number', 'counter', 'email', 'empid', 'designation']
+    REQUIRED_FIELDS = ['name', 'phone_number', 'counter', 'email', 'empid', 'designation', 'department']
 
     objects = MyUserManager()
 

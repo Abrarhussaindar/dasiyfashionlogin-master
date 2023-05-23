@@ -23,9 +23,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'y+5y)04lrfc&08fr1k%^58yxf9=75c=!l@5cbevr5=f2l4k-r$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,7 +79,7 @@ TEMPLATES = [
 ]
 
 # AUTO_LOGOUT = {
-#     'IDLE_TIME': 600,
+#     'IDLE_TIME': 20,
 #     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
 #     'MESSAGE': 'The session has expired. Please login again to continue.',
 # }
@@ -147,12 +147,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 STATICFILES_DIRS = [
     (os.path.join(BASE_DIR, 'static'))
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build','staticfiles')
+STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/images/'
 
