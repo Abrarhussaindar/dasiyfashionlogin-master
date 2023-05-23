@@ -2,9 +2,9 @@
     "version": 2,
     "builds": [
       {
-        "src": "projectname/wsgi.py",
+        "src": "daisyfashionlogin/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.11.3" }
       },
       {
         "src": "build_files.sh",
@@ -21,7 +21,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "projectname/wsgi.py"
+        "dest": "daisyfashionlogin/wsgi.py"
       }
     ]
   
