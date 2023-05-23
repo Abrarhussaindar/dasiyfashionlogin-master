@@ -5,8 +5,7 @@
         "config": { "maxLambdaSize": "15mb", "rumtime": "python3.11.3" }
     }],
     
-    "routes": [{
-        "src": "/(.*)", "destination": "/"
-    }]
+
+    "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 
 }
