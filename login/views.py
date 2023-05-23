@@ -3,24 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from .models import *
 import time
-from datetime import datetime, date
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
-
-# def countdown(time_sec):
-#     while time_sec:
-#         mins, secs = divmod(time_sec, 60)
-#         timeformat = '{:02d}:{:02d}'.format(mins, secs)
-#         print(timeformat, end='\r')
-#         time.sleep(1)
-#         time_sec += 1
-
-#     print("stop")
-
-# countdown(1)
-
-
-# login_times = []
-# logout_times = []
 
 
 def user_login(request):
@@ -44,6 +28,7 @@ def user_login(request):
             print("login counts: ",employe_counter)
             print("employee login list from db: ",employee.login_list)
             return redirect('home')
+            # return redirect('https://digitaldaisy.co.in/daisyfashion/')
             
     context = {}
     return render(request, "login.html", context)
@@ -74,14 +59,11 @@ def create_new_user(request):
     return render(request, "register.html", {})
 
 duration = 0
-import threading
 
-# @login_required
+
 def home(request):
-    # while 
     if request.user.is_authenticated:
         emp = request.user
-
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         t1 = datetime.strptime(emp.intime, "%H:%M:%S")
@@ -95,5 +77,4 @@ def home(request):
         }
     else:
         context={}
-
     return render(request, "home.html", context)
