@@ -9,21 +9,24 @@ from django.contrib.auth.decorators import login_required
 
 def user_login(request):
     print("current time", time.strftime("%H:%M:%S", time.localtime()))
-    department_categories = [
-            dict(department ="Management/Admin", url="https://wwww.digitaldisy.net"),
-            dict(department ='Operations',url="https://wwww.digitaldisy.net"),
-            dict(department ='Marketing',url="https://wwww.digitaldisy.net"),
-            dict(department ='Sales',url="https://wwww.digitaldisy.net"),
-            dict(department ='IT', url="https://wwww.digitaldisy.net")
-        ]
+    department_categories = ["Management/Admin",'Operations','Marketing','Sales','IT' ]
+            # dict(department = url="https://www.digitaldaisy.net"),
+            # dict(department =url="https://www.digitaldaisy.net"),
+            # dict(department =url="https://www.digitaldaisy.net"),
+            # dict(department =url="https://www.digitaldaisy.net"),
+            # dict(department = url="https://www.digitaldaisy.net")
+      
     
-    for i in range(len(department_categories)):
-        print(department_categories[i]["department"],department_categories[i]["url"])
+    # for i in range(len(department_categories)):
+    #     print(department_categories[i]["department"],department_categories[i]["url"])
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('Password')
+        department = request.POST.get('department')
         print(username, password)
-        employee = authenticate(request, username=username, password=password)
+        employee = authenticate(request,department=department, username=username, password=password)
+        print("employee authenticed: ",employee.is_authenticated)
         if employee is not None:
             print("employee is not none")
             employee.login_counter += 1

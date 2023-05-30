@@ -35,8 +35,12 @@ header .header-btns a {
   color: white;
 }
 
+.wrapper-visibility, .category-visibilty {
+  display: none !important;
+}
+
 .container .category {
-  display: flex;
+  display: block;
 }
 .container .category .category-btns {
   margin: 10px;
@@ -48,6 +52,50 @@ header .header-btns a {
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.wrapper {
+  margin: 150px auto;
+  max-width: 500px;
+  height: 400px;
+  background: #f5f5f5;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper form .field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+.wrapper form .field label {
+  width: 50%;
+  font-size: 20px;
+  color: black;
+}
+.wrapper form .field input {
+  width: 50%;
+  font-size: 16px;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.wrapper form .submit-btn {
+  width: 50%;
+  font-size: 18px;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px 50px 20px 100px;
 }
 
 footer .sticky-fixed-popup {
